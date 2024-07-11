@@ -4,7 +4,6 @@ type Author struct {
 	ID    int64  `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
-	Book  []Book `json:"book"`
 }
 
 type Book struct {
@@ -20,15 +19,14 @@ type Publisher struct {
 	ID      int64  `json:"id"`
 	Name    string `json:"name"`
 	Address string `json:"address"`
-	Books   []Book `json:"book"`
 }
 
 type Borrower struct {
 	ID        int64  `json:"id"`
-	User      User   `json:"user"`
+	UserID    int64  `json:"user"`
 	EndDate   string `json:"end_date"`
 	StartDate string `json:"start_date"`
-	Book      Book   `json:"book"`
+	BookID    int64  `json:"book"`
 }
 
 type User struct {

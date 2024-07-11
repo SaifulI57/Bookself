@@ -7,13 +7,8 @@ import (
 	"runtime"
 )
 
+func main() {
 
-
-func main(){
-	
-	
 	runtime.GOMAXPROCS(2)
-	
 
-	
 }
