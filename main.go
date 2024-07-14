@@ -1,14 +1,16 @@
 package main
 
 import (
-	// "github.com/gin-gonic/gin"
-	// types "belajar_api/models"
-	// "fmt"
-	"runtime"
+	routing "belajar_api/routes"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.Default()
+	router.SetTrustedProxies(nil)
+	routing.SetupRoute(router)
 
-	runtime.GOMAXPROCS(2)
-
+	router.Run(":8080")
 }

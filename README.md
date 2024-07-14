@@ -1,239 +1,234 @@
 # README
 
-This project is a RESTful API built using the Gin framework for managing a library system. It includes functionalities for creating and retrieving users, borrowers, publishers, books, and authors.
-Below are the details on how to set up and use the API.
+## Project Overview
 
-## Table of Contents
+This project provides a RESTful API for managing a library system using the Gin web framework. The API supports CRUD operations for managing authors, books, publishers, borrowers, and users. Each
+entity is managed with concurrency-safe operations using the `sync.Mutex` for thread-safe data access.
 
--   [README](#readme)
-    -   [Table of Contents](#table-of-contents)
-    -   [Installation](#installation)
-    -   [Usage](#usage)
-        -   [Endpoints](#endpoints)
-            -   [User Endpoints](#user-endpoints)
-            -   [Borrower Endpoints](#borrower-endpoints)
-            -   [Publisher Endpoints](#publisher-endpoints)
-            -   [Book Endpoints](#book-endpoints)
-            -   [Author Endpoints](#author-endpoints)
-        -   [Examples](#examples)
+## Project Structure
 
-## Installation
+-   **Models**: Defined in `belajar_api/controllers`
+-   **Request Handlers**: Defined in `request` package
 
-1. Clone the repository:
+## Data Structures
 
-    ```sh
-    git clone https://github.com/your-repo/library-api.git
-    cd library-api
-    ```
+The project uses the following data structures:
 
-2. Install dependencies:
+-   `AuthorDB`
+-   `BookDB`
+-   `PublisherDB`
+-   `BorrowerDB`
+-   `UserDB`
 
-    ```sh
-    go mod download
-    ```
+Each of these data structures is equipped with a mutex to ensure thread-safe operations.
 
-3. Run the application:
-    ```sh
-    go run main.go
-    ```
+## API Endpoints
+
+### Create Operations
+
+#### Create User
+
+-   **Endpoint**: `POST /user`
+-   **Description**: Creates a new user.
+-   **Parameters**:
+    -   `name`
+    -   `firstname`
+    -   `username`
+    -   `lastname`
+    -   `email`
+    -   `password`
+
+#### Create Borrower
+
+-   **Endpoint**: `POST /borrower`
+-   **Description**: Creates a new borrower.
+-   **Parameters**:
+    -   `userId`
+    -   `endDate`
+    -   `startDate`
+    -   `bookId`
+
+#### Create Publisher
+
+-   **Endpoint**: `POST /publisher`
+-   **Description**: Creates a new publisher.
+-   **Parameters**:
+    -   `name`
+    -   `address`
+
+#### Create Book
+
+-   **Endpoint**: `POST /book`
+-   **Description**: Creates a new book.
+-   **Parameters**:
+    -   `name`
+    -   `description`
+    -   `publisherId`
+    -   `authorId`
+
+#### Create Author
+
+-   **Endpoint**: `POST /author`
+-   **Description**: Creates a new author.
+-   **Parameters**:
+    -   `name`
+    -   `email`
+
+### Read Operations
+
+#### Get Users
+
+-   **Endpoint**: `GET /users`
+-   **Description**: Retrieves a list of all users.
+
+#### Get User
+
+-   **Endpoint**: `GET /user/:id`
+-   **Description**: Retrieves a user by ID.
+
+#### Get Borrowers
+
+-   **Endpoint**: `GET /borrowers`
+-   **Description**: Retrieves a list of all borrowers.
+
+#### Get Borrower
+
+-   **Endpoint**: `GET /borrower/:id`
+-   **Description**: Retrieves a borrower by ID.
+
+#### Get Publishers
+
+-   **Endpoint**: `GET /publishers`
+-   **Description**: Retrieves a list of all publishers.
+
+#### Get Publisher
+
+-   **Endpoint**: `GET /publisher/:id`
+-   **Description**: Retrieves a publisher by ID.
+
+#### Get Books
+
+-   **Endpoint**: `GET /books`
+-   **Description**: Retrieves a list of all books.
+
+#### Get Book
+
+-   **Endpoint**: `GET /book/:id`
+-   **Description**: Retrieves a book by ID.
+
+#### Get Authors
+
+-   **Endpoint**: `GET /authors`
+-   **Description**: Retrieves a list of all authors.
+
+#### Get Author
+
+-   **Endpoint**: `GET /author/:id`
+-   **Description**: Retrieves an author by ID.
+
+### Update Operations
+
+#### Update User
+
+-   **Endpoint**: `PUT /user/:id`
+-   **Description**: Updates a user by ID.
+-   **Parameters**:
+    -   `name`
+    -   `firstname`
+    -   `lastname`
+    -   `username`
+    -   `email`
+    -   `password`
+
+#### Update Borrower
+
+-   **Endpoint**: `PUT /borrower/:id`
+-   **Description**: Updates a borrower by ID.
+-   **Parameters**:
+    -   `userId`
+    -   `endDate`
+    -   `startDate`
+    -   `bookId`
+
+#### Update Publisher
+
+-   **Endpoint**: `PUT /publisher/:id`
+-   **Description**: Updates a publisher by ID.
+-   **Parameters**:
+    -   `name`
+    -   `address`
+
+#### Update Book
+
+-   **Endpoint**: `PUT /book/:id`
+-   **Description**: Updates a book by ID.
+-   **Parameters**:
+    -   `name`
+    -   `description`
+    -   `publisherId`
+    -   `authorId`
+
+#### Update Author
+
+-   **Endpoint**: `PUT /author/:id`
+-   **Description**: Updates an author by ID.
+-   **Parameters**:
+    -   `name`
+    -   `email`
+
+### Delete Operations
+
+#### Delete User
+
+-   **Endpoint**: `DELETE /user/:id`
+-   **Description**: Deletes a user by ID.
+
+#### Delete Borrower
+
+-   **Endpoint**: `DELETE /borrower/:id`
+-   **Description**: Deletes a borrower by ID.
+
+#### Delete Publisher
+
+-   **Endpoint**: `DELETE /publisher/:id`
+-   **Description**: Deletes a publisher by ID.
+
+#### Delete Book
+
+-   **Endpoint**: `DELETE /book/:id`
+-   **Description**: Deletes a book by ID.
+
+#### Delete Author
+
+-   **Endpoint**: `DELETE /author/:id`
+-   **Description**: Deletes an author by ID.
 
 ## Usage
 
-### Endpoints
+To use the API, you need to run the server and make HTTP requests to the endpoints listed above.
 
-#### User Endpoints
+### Example Request
 
--   **Create User**
+To create a new user, you can send a POST request to `/user` with the required parameters.
 
-    -   **URL:** `/createUser`
-    -   **Method:** `POST`
-    -   **Query Parameters:** `name`, `firstname`, `lastname`, `username`, `email`, `password`
-    -   **Response:**
-        ```json
-        {
-            "message": "User created successfully",
-            "user": {
-                "ID": 1,
-                "Name": "John",
-                "FirstName": "Doe",
-                "LastName": "Smith",
-                "Username": "johnsmith",
-                "Email": "john@example.com",
-                "Password": "password"
-            }
-        }
-        ```
+```sh
+curl -X POST "http://localhost:8080/user?name=John&firstname=Doe&lastname=Doe&username=johndoe&email=johndoe@example.com&password=secret"
+```
 
--   **Get All Users**
+## Concurrency
 
-    -   **URL:** `/getUsers`
-    -   **Method:** `GET`
-    -   **Response:** Returns a list of all users.
+The project uses `sync.Mutex` to ensure thread-safe access to the in-memory data structures. This prevents race conditions when multiple goroutines try to read or write data simultaneously.
 
--   **Get User**
+## Dependencies
 
-    -   **URL:** `/getUser`
-    -   **Method:** `GET`
-    -   **Query Parameter:** `id`
-    -   **Response:** Returns a specific user by ID.
+-   `github.com/gin-gonic/gin`: Gin web framework
 
--   **Update User**
-    -   **URL:** `/updateUser`
-    -   **Method:** `PUT`
-    -   **Query Parameters:** `id`, `name`, `firstname`, `lastname`, `username`, `email`, `password`
-    -   **Response:**
-        ```json
-        {
-            "message": "User updated successfully"
-        }
-        ```
+## Setup
 
-#### Borrower Endpoints
+1. Clone the repository
+2. Install the dependencies: `go mod tidy`
+3. Run the server: `go run main.go`
 
--   **Create Borrower**
+## Author
 
-    -   **URL:** `/createBorrower`
-    -   **Method:** `POST`
-    -   **Query Parameters:** `userId`, `endDate`, `startDate`, `bookId`
-    -   **Response:**
-        ```json
-        {
-            "message": "Borrower created successfully",
-            "borrower": {
-                "ID": 1,
-                "User": {
-                    /* user data */
-                },
-                "EndDate": "2024-12-31",
-                "StartDate": "2024-01-01",
-                "Book": {
-                    /* book data */
-                }
-            }
-        }
-        ```
-
--   **Get All Borrowers**
-
-    -   **URL:** `/getBorrowers`
-    -   **Method:** `GET`
-    -   **Response:** Returns a list of all borrowers.
-
--   **Get Borrower**
-    -   **URL:** `/getBorrower`
-    -   **Method:** `GET`
-    -   **Query Parameter:** `id`
-    -   **Response:** Returns a specific borrower by ID.
-
-#### Publisher Endpoints
-
--   **Create Publisher**
-
-    -   **URL:** `/createPublisher`
-    -   **Method:** `POST`
-    -   **Query Parameters:** `name`, `address`, `bookId`
-    -   **Response:**
-        ```json
-        {
-            "message": "Publisher created successfully",
-            "publisher": {
-                "ID": 1,
-                "Name": "O'Reilly",
-                "Address": "1005 Gravenstein Highway North, Sebastopol",
-                "Books": [
-                    /* book data */
-                ]
-            }
-        }
-        ```
-
--   **Get All Publishers**
-
-    -   **URL:** `/getPublishers`
-    -   **Method:** `GET`
-    -   **Response:** Returns a list of all publishers.
-
--   **Get Publisher**
-    -   **URL:** `/getPublisher`
-    -   **Method:** `GET`
-    -   **Query Parameter:** `id`
-    -   **Response:** Returns a specific publisher by ID.
-
-#### Book Endpoints
-
--   **Create Book**
-
-    -   **URL:** `/createBook`
-    -   **Method:** `POST`
-    -   **Query Parameters:** `name`, `description`, `publisherId`, `authorId`, `isborrowed`
-    -   **Response:**
-        ```json
-        {
-            "message": "Book created successfully"
-        }
-        ```
-
--   **Get All Books**
-
-    -   **URL:** `/getBooks`
-    -   **Method:** `GET`
-    -   **Response:** Returns a list of all books.
-
--   **Get Book**
-    -   **URL:** `/getBook`
-    -   **Method:** `GET`
-    -   **Query Parameter:** `id`
-    -   **Response:** Returns a specific book by ID.
-
-#### Author Endpoints
-
--   **Create Author**
-
-    -   **URL:** `/createAuthor`
-    -   **Method:** `POST`
-    -   **Query Parameters:** `name`, `email`, `bookId`
-    -   **Response:**
-        ```json
-        {
-            "message": "Author created successfully",
-            "author": {
-                "ID": 1,
-                "Name": "John Doe",
-                "Email": "john.doe@example.com",
-                "Books": [
-                    /* book data */
-                ]
-            }
-        }
-        ```
-
--   **Get All Authors**
-
-    -   **URL:** `/getAuthors`
-    -   **Method:** `GET`
-    -   **Response:** Returns a list of all authors.
-
--   **Get Author**
-    -   **URL:** `/getAuthor`
-    -   **Method:** `GET`
-    -   **Query Parameter:** `id`
-    -   **Response:** Returns a specific author by ID.
-
-### Examples
-
-1. **Create a User**
-
-    ```sh
-    curl -X POST "http://localhost:8080/createUser?name=John&firstname=Doe&lastname=Smith&username=johnsmith&email=john@example.com&password=password"
-    ```
-
-2. **Get All Users**
-
-    ```sh
-    curl -X GET "http://localhost:8080/getUsers"
-    ```
-
-3. **Create a Book**
-    ```sh
-    curl -X POST "http://localhost:8080/createBook?name=GoProgramming&description=A book on Go programming&publisherId=1&authorId=1&isborrowed=false"
-    ```
+-   Saiful
